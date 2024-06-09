@@ -7,6 +7,13 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false}));
 
+// database
+const mongoose = require("mongoose");
+mongoose.connect(process.env.MONGO_URL, {
+    dbName: 'mernChatApp'
+})
+mongoose.connection.on('connected', () => console.log("Database connected"))
+
 app.use("/api/users", userRoute);
 
 const PORT = 8000;
