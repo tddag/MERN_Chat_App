@@ -29,13 +29,11 @@ export const SignUp = () => {
 
       if (res.ok) {
         res = await res.json();
-        console.log(res);
         dispatch(signInSuccess(res))
         navigate("/");
       } else {
         res = await res.json();
         dispatch(submitFailure(res.message))
-        console.log(res);
       }
     } catch (e) {
       console.log(e)
