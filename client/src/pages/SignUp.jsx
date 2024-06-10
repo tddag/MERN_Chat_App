@@ -1,21 +1,43 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const SignUp = () => {
 
   const [formInputData, setFormInputData] = useState();
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState();
+  const navigate = useNavigate();
 
   const handleFormInputChange = (e) => {
     setFormInputData({...formInputData, [e.target.id]: e.target.value});
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true)
 
-    console.log(formInputData)
+    try {
+      let res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }, 
+        body: JSON.stringify(formInputData)
+      })
+
+      if (res.ok) {
+        res = await res.json();
+        console.log(res);
+        navigate("/");
+      } else {
+        res = await res.json();
+        setError(res.message || "Error")
+        console.log(res);
+      }
+    } catch (e) {
+      console.log(e)
+      setError(JSON.stringify(e))
+    }
 
     setIsLoading(false)
 
@@ -40,7 +62,7 @@ export const SignUp = () => {
           </Link>
         </div>
         <span className="text-red-500">
-
+          {error}
         </span>
       </div>
     </>
