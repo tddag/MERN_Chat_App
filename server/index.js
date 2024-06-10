@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const userRoute = require("./routes/users");
+const userRouter = require("./routes/users");
+const conversationRouter = require("./routes/conversations");
+const messageRouter = require("./routes/messages")
 
 app.use(cors())
 app.use(express.json())
@@ -14,7 +16,9 @@ mongoose.connect(process.env.MONGO_URL, {
 })
 mongoose.connection.on('connected', () => console.log("Database connected"))
 
-app.use("/api/users", userRoute);
+app.use("/api/users", userRouter);
+app.use("/api/conversation", conversationRouter)
+app.use("/api/messages", messageRouter)
 
 const PORT = 8000;
 app.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`));
