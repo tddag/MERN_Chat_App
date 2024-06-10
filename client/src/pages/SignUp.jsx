@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { submitStart, signInSuccess, submitFailure } from '../state/user/userSlice';
 
 export const SignUp = () => {
 
   const [formInputData, setFormInputData] = useState();
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState();
+  const { isLoading, error } = useSelector(state => state.user)
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleFormInputChange = (e) => {
@@ -14,7 +16,7 @@ export const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
+    dispatch(submitStart());
 
     try {
       let res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users`, {
@@ -28,19 +30,17 @@ export const SignUp = () => {
       if (res.ok) {
         res = await res.json();
         console.log(res);
+        dispatch(signInSuccess(res))
         navigate("/");
       } else {
         res = await res.json();
-        setError(res.message || "Error")
+        dispatch(submitFailure(res.message))
         console.log(res);
       }
     } catch (e) {
       console.log(e)
-      setError(JSON.stringify(e))
+      dispatch(submitFailure(JSON.stringify(e)))
     }
-
-    setIsLoading(false)
-
   }
   
   return (
