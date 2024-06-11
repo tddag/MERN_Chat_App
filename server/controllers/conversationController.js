@@ -41,7 +41,6 @@ const getConversation = async (req, res, next) => {
     }
 
     const conversation = await Conversation.findById(id).populate("users").populate("messages");
-
     if (conversation) {
         res.status(200).json(conversation)
     } else {
