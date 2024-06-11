@@ -53,8 +53,9 @@ const loginUser = async (req, res, next) => {
     }
 
     const user = await User.findOne({ email })
-
+    console.log("Get here 1")
     if (user && await bcrypt.compare(password, user.password)) {
+        console.log("Get here 2")
         res.json({
             id: user._id,
             name: user.name,
@@ -80,6 +81,10 @@ const getUserDetails = async (req, res, next) => {
 
 // Generate JWT Token
 const generateJwtToken = (id) => {
+    console.log("TD-private key")
+    console.log(process.env.MONGO_URL)
+    console.log(process.env.JWT_PRIVATE_KEY)
+
     return jwt.sign(
         {id},
         process.env.JWT_PRIVATE_KEY,

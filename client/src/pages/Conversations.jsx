@@ -12,26 +12,82 @@ export const Conversations = () => {
         <div>Conversation</div>
 
         </div>
-        <div className="relative bg-green-300 w-4/6 h-5/6 flex flex-col p-2 md:p-4 border-8 border-blue-800" >
-            <div>Message</div>
-            <div className="flex justify-end">
+        <div className="relative bg-green-300 w-4/6 h-5/6 " >
+            <div className="flex flex-col p-2 md:p-4 overflow-auto h-3/4 md:mr-20">
                 <div>Message</div>
-            </div>
-            <div>Message</div>
-            <div className="flex justify-end">
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>
                 <div>Message</div>
-            </div>
-            <div>Message</div>
-            <div className="flex justify-end">
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>
                 <div>Message</div>
-            </div>
-            <div>Message</div>
-            <div className="flex justify-end">
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>
                 <div>Message</div>
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>
+                <div>Message</div>
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>
+                <div>Message</div>
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>
+                <div>Message</div>
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>
+                <div>Message</div>
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>   
+                <div>Message</div>
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>   
+                <div>Message</div>
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>   
+                <div>Message</div>
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>  
+                <div>Message</div>
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>  
+                <div>Message</div>
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>  
+                <div>Message</div>
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>  
+                <div>Message</div>
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>  
+                <div>Message</div>
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>  
+                <div>Message</div>
+                <div className="flex justify-end">
+                    <div>Message</div>
+                </div>                                
+                
             </div>
+           
 
-            <div className="absolute bottom-5 border-2 w-full">
-                <input className="rounded-lg w-full" placeholder='New Message'/>
+            <div className="absolute bottom-5 w-full m-auto flex justify-center p-0" >
+                <input className="rounded-lg w-10/12 md:w-9/12 p-3" placeholder='New Message'/>
             </div>
 
         </div>
