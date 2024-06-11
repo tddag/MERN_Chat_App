@@ -50,4 +50,17 @@ const getConversation = async (req, res, next) => {
 
 }
 
-module.exports = { createConversation, getConversation }
+
+// @desc Get All Conversations
+// @route GET /api/conversation/
+const getAllConversations = async (req, res, next) => {
+    let conversations = await Conversation.find().populate("users").populate("messages");
+
+    if (conversations) {
+        res.status(200).json({ conversations: conversations})
+    } else {
+        res.status(400).json({ message: "Invalid Request"})
+    }
+}
+
+module.exports = { createConversation, getConversation, getAllConversations }

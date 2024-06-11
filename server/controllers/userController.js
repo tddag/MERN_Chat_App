@@ -1,6 +1,7 @@
 const User = require("../models/User")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken");
+const Conversation = require("../models/Conversation");
 
 // @desc Register User
 // @route POST /api/users
@@ -79,11 +80,39 @@ const getUserDetails = async (req, res, next) => {
     })
 }
 
+// @desc Get All Users
+// @route GET /api/users/
+const getAllUsers = async (req, res, next) => {
+    let users = await User.find().sort({email: 1})
+    
+    if (users) {
+        res.status(200).json({ users: users})
+    } else {
+        res.status(400).json({ message: "Invalid Request"})
+    }
+}
+
+
+// @desc Get User Conversations
+// @route GET /api/users/:id/conversations
+const getUserConversations = async (req, res, next) => {
+    const userId = req.params.id;
+
+    if (!userId) {
+        res.status(400).json({ message: "UserId is required"})
+    } else {
+        let conversations = await Conversation.find({ users: {$in: [userId]}})
+
+        if (conversations) {
+            res.status(200).json({ conversations: conversations})
+        } else {
+            res.status(400).json({ conversations: []})
+        }
+    }
+}
+
 // Generate JWT Token
 const generateJwtToken = (id) => {
-    console.log("TD-private key")
-    console.log(process.env.MONGO_URL)
-    console.log(process.env.JWT_PRIVATE_KEY)
 
     return jwt.sign(
         {id},
@@ -94,4 +123,4 @@ const generateJwtToken = (id) => {
     )
 }
 
-module.exports = { registerUser, loginUser, getUserDetails}
+module.exports = { registerUser, loginUser, getUserDetails, getUserConversations, getAllUsers}
