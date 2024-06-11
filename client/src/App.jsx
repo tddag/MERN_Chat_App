@@ -8,6 +8,8 @@ import { Home } from './pages/Home'
 import { SignIn } from './pages/SignIn'
 import { SignUp } from './pages/SignUp'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import { Conversations } from './pages/Conversations'
+import { Users } from './pages/Users'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -18,7 +20,9 @@ function App() {
 
       <Routes>
         <Route element={<ProtectedRoute/>}>
-          <Route path="/" element={<Home/>} />        
+          <Route path="/" element={<Home/>} /> 
+          <Route path="/conversations" element={<Conversations/>} /> 
+          <Route path="/users" element={<Users/>} />        
         </Route>
         <Route path="/signin" element={<SignIn/>} />
         <Route path="/signup" element={<SignUp/>} />

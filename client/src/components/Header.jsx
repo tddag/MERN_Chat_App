@@ -15,16 +15,19 @@ export const Header = () => {
 
   return (
     <>
-        <div className="flex justify-between bg-blue-300 items-center max-w-6xl mx-auto p-3">
+        <div className="flex justify-between bg-blue-300 items-center mx-auto p-3">
             <h2 className="font-bold">MERN Chat App</h2>
             <div className="flex gap-4 items-center">
                 <Link to="/">Home</Link>
                 { currentUser ? (
                   <div className="flex gap-4 items-center">
                     <span>Hi { currentUser.name } </span>
+                    <Link to="/conversations">Conversation</Link>
+                    <Link to="/users">Users</Link>                    
                     <Link to="/signin" onClick={handleSignOut} className="bg-red-200 p-2 rounded-lg">
                       <button > Sign Out </button>                    
                     </Link>
+ 
                   </div>
                 ): (
                   <div className="flex gap-4">
