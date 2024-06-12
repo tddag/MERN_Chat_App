@@ -13,7 +13,7 @@ export const MessageItem = (props) => {
     <div className={"flex " + (currentUser._id == props.message.senderId ? "justify-end" : "")}>
       <div className={"flex gap-4 " + (currentUser._id !== props.message.senderId ? "flex-row-reverse": "" )}>
           <span>{props.message.message} </span>
-          <img src="/src/assets/t.png" className="h-6 w-6"/>
+          <img src="/assets/t.png" className="h-6 w-6" alt="Avatar"/>
       </div>
     </div>    
   )
