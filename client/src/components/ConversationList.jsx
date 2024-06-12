@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ConversationListItem } from './ConversationListItem'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 export const ConversationList = () => {
 
@@ -42,7 +43,10 @@ export const ConversationList = () => {
                     </div>
                 ): 
                 conversationList.map((conversation, index) => (
-                    <ConversationListItem key={index} conversation={conversation}/>
+                    <Link to={`/conversations/${conversation._id}`} key={index}>
+                        <ConversationListItem  conversation={conversation}/>
+                    </Link>
+                    
                 ))                      
             }
         </div>        
