@@ -33,7 +33,7 @@ const registerUser = async (req, res, next) => {
 
     if (user) {
         res.status(201).json({
-            id: user._id,
+            _id: user._id,
             name: user.name,
             email: user.email,
             token: generateJwtToken(user._id)
