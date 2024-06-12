@@ -18,7 +18,6 @@ export const Header = () => {
         <div className="flex justify-between bg-blue-300 items-center mx-auto p-3">
             <h2 className="font-bold">MERN Chat App</h2>
             <div className="flex gap-4 items-center">
-                <Link to="/">Home</Link>
                 { currentUser ? (
                   <div className="flex gap-4 items-center">
                     <span>Hi { currentUser.name } </span>

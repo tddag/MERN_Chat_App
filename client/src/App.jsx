@@ -2,7 +2,6 @@ import { useState } from 'react'
 import './App.css'
 import { Header } from './components/Header'
 import { Route, Routes } from 'react-router-dom'
-import { Home } from './pages/Home'
 import { SignIn } from './pages/SignIn'
 import { SignUp } from './pages/SignUp'
 import { ProtectedRoute } from './components/ProtectedRoute'
@@ -17,7 +16,7 @@ function App() {
 
       <Routes>
         <Route element={<ProtectedRoute/>}>
-          <Route path="/" element={<Home/>} /> 
+          <Route path="/" element={<Conversations/>} />
           <Route path="/conversations/" element={<Conversations/>} /> 
           <Route path="/conversations/:id" element={<Conversations/>} /> 
           <Route path="/users" element={<Users/>} />        

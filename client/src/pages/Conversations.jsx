@@ -7,14 +7,13 @@ export const Conversations = () => {
     let { id } = useParams();
     
     useEffect(() => {
-      console.log("TD-id")
-      console.log(id)
+
     }, [id])
 
   return (
     <div className="flex gap-2 md:gap-4 mb-10 h-screen">
 
-        <ConversationList/>
+        <ConversationList conversationId={id}/>
         
         <MessageList conversationId={id}/>
 

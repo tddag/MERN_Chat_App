@@ -3,7 +3,7 @@ import { ConversationListItem } from './ConversationListItem'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-export const ConversationList = () => {
+export const ConversationList = (props) => {
 
     const { currentUser } = useSelector(state => state.user)
     const [conversationList, setConversationList] = useState([])
@@ -15,7 +15,7 @@ export const ConversationList = () => {
     const getUserConversations = async () => {
 
         try {
-            let url = `${import.meta.env.VITE_SERVER_URL}/api/users/${currentUser.id}/conversations`
+            let url = `${import.meta.env.VITE_SERVER_URL}/api/users/${currentUser._id}/conversations`
 
             let res = await fetch(url, {
                 headers: {
@@ -43,7 +43,7 @@ export const ConversationList = () => {
                     </div>
                 ): 
                 conversationList.map((conversation, index) => (
-                    <Link to={`/conversations/${conversation._id}`} key={index}>
+                    <Link to={`/conversations/${conversation._id}`} key={index} className={(props.conversationId && props.conversationId == conversation._id) ? "bg-yellow-400" : "bg-yellow-200"}>
                         <ConversationListItem  conversation={conversation}/>
                     </Link>
                     

@@ -27,7 +27,7 @@ const createMessage = async (req, res, next) => {
             updatedConversation.save();
 
             res.status(201).json({
-                id: newMessage._id,
+                _id: newMessage._id,
                 message,
                 conversationId,
                 senderId,

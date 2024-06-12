@@ -23,7 +23,7 @@ const createConversation = async (req, res, next) => {
 
     if (conversation) {
         res.status(201).json({
-            id: conversation._id,
+            _id: conversation._id,
             users
         })
     } else {

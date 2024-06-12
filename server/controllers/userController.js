@@ -56,7 +56,7 @@ const loginUser = async (req, res, next) => {
     const user = await User.findOne({ email })
     if (user && await bcrypt.compare(password, user.password)) {
         res.json({
-            id: user._id,
+            _id: user._id,
             name: user.name,
             email: user.email,
             token: generateJwtToken(user._id)
@@ -72,7 +72,7 @@ const getUserDetails = async (req, res, next) => {
     const { _id, name, email } = await User.findById(req.user.id);
 
     res.status(200).json({
-        id: _id,
+        _id,
         name,
         email
     })
@@ -81,7 +81,7 @@ const getUserDetails = async (req, res, next) => {
 // @desc Get All Users
 // @route GET /api/users/
 const getAllUsers = async (req, res, next) => {
-    let users = await User.find().sort({email: 1})
+    let users = await User.find().sort({email: 1}).select("-password")
     
     if (users) {
         res.status(200).json({ users: users})

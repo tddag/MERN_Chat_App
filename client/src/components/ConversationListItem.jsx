@@ -9,7 +9,7 @@ export const ConversationListItem = (props) => {
 
     useEffect(() => {
         let arr = props.conversation.users.map(user => {
-            if (currentUser.id !== user._id) return user.name
+            if (currentUser._id !== user._id) return user.name
             return null
         })
 
@@ -20,7 +20,7 @@ export const ConversationListItem = (props) => {
     }, [])
 
     return (
-        <div className="bg-yellow-200 p-4 rounded-xl uppercase">
+        <div className="p-4 rounded-xl uppercase">
             {userNameArr.length > 0 ? userNameArr.join(" + ") : ""}
         </div>
     )
