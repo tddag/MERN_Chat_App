@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { MessageInput } from './MessageInput';
 import { MessageItem } from './MessageItem';
+import { pusherClient } from '../libs/pusher';
 
 export const MessageList = (props) => {
 
@@ -10,9 +11,27 @@ export const MessageList = (props) => {
 
     useEffect(() => {
         getMessageList();
+        if (props.conversationId) {
+            pusherClient.subscribe(props.conversationId)
+            pusherClient.bind('messages:new', messageHandler)
+    
+            return () => {
+                pusherClient.unsubscribe(props.conversationId);
+                pusherClient.unbind('messages:new', messageHandler)
+            }     
+        }
     }, [props.conversationId])
 
+    const messageHandler = (newMessage) => {
+        for (let m of messageList) {
+            if (m._id == newMessage._id) return;
+        }
+        setMessageList(ml => [...ml, newMessage])
+       
+    }
+
     const getMessageList = async () => {
+        console.log("TD-getMEssageList")
 
         if (props.conversationId) {
             try {

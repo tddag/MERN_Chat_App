@@ -1,6 +1,7 @@
 
 // @desc Create Message
 
+const { pusherServer } = require("../libs/pusher");
 const Conversation = require("../models/Conversation");
 const Message = require("../models/Message");
 
@@ -25,6 +26,8 @@ const createMessage = async (req, res, next) => {
             updatedConversation.messages.push(newMessage._id);
             updatedConversation.lastMessageAt = new Date();
             updatedConversation.save();
+
+            await pusherServer.trigger(conversationId, 'messages:new', newMessage)
 
             res.status(201).json({
                 _id: newMessage._id,
