@@ -66,7 +66,7 @@ export const MessageList = (props) => {
     }
 
     return (
-        <div className="relative bg-green-300 w-4/6 h-full " >
+        <div className="relative bg-green-300 w-5/6 h-screen " >
             <div className="flex flex-col p-2 md:p-4 overflow-auto h-3/4 md:mr-20 gap-3">
                 {messageList.length > 0 ? messageList.map((message,index) => (
                         <MessageItem message={message} key={index}/>
