@@ -20,7 +20,7 @@ export const ConversationListItem = (props) => {
     }, [])
 
     return (
-        <div className="p-4 rounded-xl uppercase">
+        <div className="p-4 rounded-xl uppercase overflow-auto">
             {userNameArr.length > 0 ? userNameArr.join(" + ") : ""}
         </div>
     )

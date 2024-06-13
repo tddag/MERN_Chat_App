@@ -44,7 +44,7 @@ export const MessageInput = (props) => {
     return (
         <div >
             <form onSubmit={onSubmit} className="absolute bottom-5 w-full m-auto flex justify-center p-0 gap-4" >
-                <input disabled={!props.conversationId} onChange={handleInputChange} value={message} className="rounded-lg w-10/12 md:w-9/12 p-3" placeholder='New Message'/>
+                <input disabled={!props.conversationId} onChange={handleInputChange} value={message} className="rounded-lg w-7/12 md:w-9/12 p-3" placeholder='New Message'/>
                 <button disabled={!props.conversationId} className="bg-blue-500 p-4 rounded-lg">Send</button>
             </form>
             
