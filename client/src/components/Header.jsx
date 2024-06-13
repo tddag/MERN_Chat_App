@@ -15,7 +15,7 @@ export const Header = () => {
 
   return (
     <>
-        <div className="flex justify-between bg-blue-300 items-center mx-auto p-3">
+        <div className="sticky top-0 z-50 flex justify-between bg-blue-300 items-center mx-auto p-3">
             <h2 className="font-bold">MERN Chat App</h2>
             <div className="flex gap-4 items-center">
                 { currentUser ? (
