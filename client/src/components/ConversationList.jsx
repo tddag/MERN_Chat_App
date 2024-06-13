@@ -36,7 +36,7 @@ export const ConversationList = (props) => {
 
 
     return (
-        <div className="bg-purple-300 w-3/12 md:w-2/6 h-5/6 flex flex-col p-2 md:p-4 gap-4">
+        <div className="bg-purple-300 w-3/12 md:w-2/6 h-full pb-20 flex flex-col p-2 md:p-4 gap-4 overflow-auto">
             { conversationList.length == 0 ? (
                     <div>
                         No conversation.

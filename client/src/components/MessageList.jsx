@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { MessageInput } from './MessageInput';
 import { MessageItem } from './MessageItem';
@@ -8,9 +8,11 @@ export const MessageList = (props) => {
 
     const { currentUser } = useSelector(state => state.user);
     const [messageList, setMessageList] = useState([])
+    let bottomListRef = useRef(null);
 
     useEffect(() => {
         getMessageList();
+
         if (props.conversationId) {
             pusherClient.subscribe(props.conversationId)
             pusherClient.bind('messages:new', messageHandler)
@@ -20,7 +22,12 @@ export const MessageList = (props) => {
                 pusherClient.unbind('messages:new', messageHandler)
             }     
         }
+
     }, [props.conversationId])
+
+    useEffect(() => {
+        bottomListRef.current?.scrollIntoView();
+    })
 
     const messageHandler = (newMessage) => {
         for (let m of messageList) {
@@ -31,7 +38,6 @@ export const MessageList = (props) => {
     }
 
     const getMessageList = async () => {
-        console.log("TD-getMEssageList")
 
         if (props.conversationId) {
             try {
@@ -45,6 +51,7 @@ export const MessageList = (props) => {
                 if (res.ok) {
                     res = await res.json();
                     setMessageList(res.messages);
+
                 } else {
                     setMessageList([])
                 }
@@ -59,7 +66,7 @@ export const MessageList = (props) => {
     }
 
     return (
-        <div className="relative bg-green-300 w-4/6 h-5/6 " >
+        <div className="relative bg-green-300 w-4/6 h-full " >
             <div className="flex flex-col p-2 md:p-4 overflow-auto h-3/4 md:mr-20 gap-3">
                 {messageList.length > 0 ? messageList.map((message,index) => (
                         <MessageItem message={message} key={index}/>
@@ -69,7 +76,7 @@ export const MessageList = (props) => {
                         </div>
                     )
                 }                               
-                
+                <div ref={bottomListRef} className="p-2"></div>
             </div>
            
 
