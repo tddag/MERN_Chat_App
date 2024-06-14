@@ -15,11 +15,14 @@ export const MessageList = (props) => {
 
         if (props.conversationId) {
             pusherClient.subscribe(props.conversationId)
-            pusherClient.bind('messages:new', messageHandler)
+            pusherClient.bind('messages:new', newMessageHandler)
+            pusherClient.bind('messages:seen', seenMessageHandler)
+
     
             return () => {
                 pusherClient.unsubscribe(props.conversationId);
-                pusherClient.unbind('messages:new', messageHandler)
+                pusherClient.unbind('messages:new', newMessageHandler)
+                pusherClient.unbind('messages:seen', seenMessageHandler)
             }     
         }
 
@@ -27,18 +30,46 @@ export const MessageList = (props) => {
 
     useEffect(() => {
         bottomListRef.current?.scrollIntoView();
+
     })
 
-    const messageHandler = (newMessage) => {
+    const callSeenMessageApi = async (messageId) => {
+        let url = `${import.meta.env.VITE_SERVER_URL}/api/messages/${messageId}/seen/${currentUser._id}`
+        await fetch(url, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${currentUser.token}`
+          } 
+        })
+    }
+
+    const newMessageHandler = async (newMessage) => {
+        if (!newMessage.seenUsers.map(user => user._id).includes(currentUser._id)) {
+            await callSeenMessageApi(newMessage._id)
+        }      
         for (let m of messageList) {
             if (m._id == newMessage._id) return;
         }
-        setMessageList(ml => [...ml, newMessage])
+        setMessageList(ml => {
+            console.log("TD Current List 1: ")
+            console.log(ml)
+            return [...ml, newMessage]})
+      
        
     }
 
-    const getMessageList = async () => {
+    const seenMessageHandler = (updatedMessage) => {
+        setMessageList(ml => {
+            return ml.map(message => {
+                if (message._id == updatedMessage._id) {
+                    return updatedMessage
+                }
+                return message
+            })})
 
+    }
+
+    const getMessageList = async () => {
         if (props.conversationId) {
             try {
                 let url = `${import.meta.env.VITE_SERVER_URL}/api/conversation/${props.conversationId}`;
@@ -51,6 +82,9 @@ export const MessageList = (props) => {
                 if (res.ok) {
                     res = await res.json();
                     setMessageList(res.messages);
+                    if (res.messages.length > 0 && !res.messages[res.messages.length - 1].seenUsers.map(user => user._id).includes(currentUser._id)) {
+                        await callSeenMessageApi(res.messages[res.messages.length - 1]._id);
+                    }                    
                 } else {
                     setMessageList([])
                 }
@@ -61,14 +95,13 @@ export const MessageList = (props) => {
         } else {
             setMessageList([]);
         }
-
     }
 
     return (
         <div className="relative bg-green-300 w-5/6 h-95%" >
             <div className="flex flex-col p-2 md:p-4 overflow-auto h-3/4 md:mr-20 gap-3">
                 {messageList.length > 0 ? messageList.map((message,index) => (
-                        <MessageItem message={message} key={index}/>
+                        <MessageItem message={message} key={index} isLast={messageList.length == index + 1}/>
                     )) : (
                         <div>
                             Please select or start a conversation

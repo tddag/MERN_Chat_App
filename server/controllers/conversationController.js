@@ -40,7 +40,12 @@ const getConversation = async (req, res, next) => {
         return
     }
 
-    const conversation = await Conversation.findById(id).populate("users").populate("messages");
+    const conversation = await Conversation.findById(id).populate("users").populate("messages").populate({
+        path: 'messages',
+        populate: {
+            path: 'seenUsers'
+        }
+    });
     if (conversation) {
         res.status(200).json(conversation)
     } else {
