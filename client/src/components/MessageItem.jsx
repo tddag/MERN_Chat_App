@@ -11,9 +11,15 @@ export const MessageItem = (props) => {
 
   return (
     <div className={" flex " + (currentUser._id == props.message.senderId ? "justify-end" : "")}>
-      <div className={"bg-slate-200 rounded-xl p-4 flex gap-4 " + (currentUser._id !== props.message.senderId ? "flex-row-reverse": "" )}>
+      <div className={"bg-slate-200 rounded-xl p-4 flex flex-col gap-1 "}>
+        <div className={"flex gap-4 " + (currentUser._id !== props.message.senderId ? "flex-row-reverse": "justify-end" )}>
           <span>{props.message.message} </span>
           <img src="/assets/t.png" className="h-6 w-6" alt="Avatar"/>
+        </div>
+        <div className={"flex " + (currentUser._id == props.message.senderId ? "justify-end": "" )}>
+          {new Date(props.message.createdAt).toLocaleString('en')}
+        </div>
+          
       </div>
     </div>    
   )

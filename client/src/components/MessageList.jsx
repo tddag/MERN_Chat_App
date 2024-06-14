@@ -51,7 +51,6 @@ export const MessageList = (props) => {
                 if (res.ok) {
                     res = await res.json();
                     setMessageList(res.messages);
-
                 } else {
                     setMessageList([])
                 }
