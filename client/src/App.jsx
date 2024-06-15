@@ -11,7 +11,7 @@ import { Users } from './pages/Users'
 function App() {
 
   return (
-    <div className="h-full bg-red-200">
+    <div className="h-full">
       <Header/>
 
       <Routes>
