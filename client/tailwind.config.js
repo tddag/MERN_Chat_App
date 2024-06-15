@@ -9,7 +9,7 @@ export default {
       spacing: {
         "95%": "95%",
         "85%": "85%",
-        "screen-minus-header": 'calc(100vh - 90px)'
+        "screen-minus-header": 'calc(100vh - 140px)'
       }
     },
   },

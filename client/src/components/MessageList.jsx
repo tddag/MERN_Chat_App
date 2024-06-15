@@ -101,10 +101,7 @@ export const MessageList = (props) => {
         <div className="relative  w-5/6 h-full" >
             <div className="relative  flex flex-col p-2 md:p-4 overflow-auto h-85% md:mr-10 gap-3">
                 {messageList.length > 0 ? messageList.map((message,index) => (
-                        <div>
-                            <MessageItem message={message} key={index} isLast={messageList.length == index + 1}/>
-
-                        </div>
+                        <MessageItem message={message} key={index} isLast={messageList.length == index + 1}/>
                     )) : (
                         <div>
                             Select an existing conversation or start a new conversation
