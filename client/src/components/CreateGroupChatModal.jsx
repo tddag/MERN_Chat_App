@@ -42,6 +42,9 @@ export const CreateGroupChatModal = (props) => {
                 console.log(res)
                 navigate(`/conversations/${res._id}`)
             } else {
+                if (res.status == 401) {
+                    navigate("/signin")
+                }                
                 console.log("Failed to create conversation")
             }
         } catch (e) {   

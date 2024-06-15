@@ -7,7 +7,6 @@ export const UserItem = (props) => {
     const navigate = useNavigate();
     const { currentUser } = useSelector(state => state.user);
 
-
     const handleClick = async () => {
          
 
@@ -33,6 +32,9 @@ export const UserItem = (props) => {
                 console.log(res)
                 navigate(`/conversations/${res._id}`)
             } else {
+                if (res.status == 401) {
+                    navigate("/signin")
+                }                
                 console.log("Failed to create conversation")
             }
         } catch (e) {   

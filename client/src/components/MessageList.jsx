@@ -3,12 +3,14 @@ import { useSelector } from 'react-redux';
 import { MessageInput } from './MessageInput';
 import { MessageItem } from './MessageItem';
 import { pusherClient } from '../libs/pusher';
+import { useNavigate } from 'react-router-dom';
 
 export const MessageList = (props) => {
 
     const { currentUser } = useSelector(state => state.user);
     const [messageList, setMessageList] = useState([])
     let bottomListRef = useRef(null);
+    const navigate = useNavigate()
 
     useEffect(() => {
         getMessageList();
@@ -35,12 +37,18 @@ export const MessageList = (props) => {
 
     const callSeenMessageApi = async (messageId) => {
         let url = `${import.meta.env.VITE_SERVER_URL}/api/messages/${messageId}/seen/${currentUser._id}`
-        await fetch(url, {
+        let res = await fetch(url, {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${currentUser.token}`
           } 
         })
+
+        if (!res.ok) {
+            if (res.status == 401) {
+                navigate("/signin")
+            }
+        }
     }
 
     const newMessageHandler = async (newMessage) => {
@@ -87,6 +95,9 @@ export const MessageList = (props) => {
                     }                    
                 } else {
                     setMessageList([])
+                    if (res.status == 401) {
+                        navigate("/signin")
+                    }                    
                 }
                 
             } catch (e) {

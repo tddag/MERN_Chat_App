@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { ConversationListItem } from './ConversationListItem'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export const ConversationList = (props) => {
 
     const { currentUser } = useSelector(state => state.user)
     const [conversationList, setConversationList] = useState([])
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getUserConversations();
@@ -27,6 +29,9 @@ export const ConversationList = (props) => {
                 res = await res.json();
                 setConversationList(res.conversations);
             } else {
+                if (res.status == 401) {
+                    navigate("/signin")
+                }
                 console.log("Failed to get conversation list")
             }
         } catch (e) {

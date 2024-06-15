@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export const useUsers = () => {
     const [userList, setUserList] = useState([])
     const { currentUser } = useSelector(state => state.user);
+    const navigate = useNavigate()
+    
     useEffect(() => {
         const fetchData = async() => {
             try {
@@ -21,6 +24,9 @@ export const useUsers = () => {
                 } else  {
                     console.log("Failed to get user lists")
                     setUserList([])
+                    if (res.status == 401) {
+                        navigate("/signin")
+                    }                    
                 }
             } catch (e) {
                 console.log(e)

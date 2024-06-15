@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
 
 export const MessageInput = (props) => {
 
     const [message, setMessage] = useState("")
     const { currentUser } = useSelector(state => state.user);
+
+    const navigate = useNavigate();
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -29,6 +32,9 @@ export const MessageInput = (props) => {
                 console.log("Successfully create message")
                 setMessage("");
             } else {
+                if (res.status == 401) {
+                    navigate("/signin")
+                }                
                 console.log("Failed to create a message")
             }
         } catch(e) {
