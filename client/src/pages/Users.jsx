@@ -13,7 +13,7 @@ export const Users = () => {
 
 
   return (
-    <div className="flex flex-col mx-auto w-full h-screen-minus-header bg-blue-200">
+    <div className="flex flex-col mx-auto w-full h-screen-minus-header-extra md:h-screen-minus-header bg-blue-200">
       <div className="flex justify-center h-20 items-center gap-4 mt-10">
           <div>
             <input className="p-4 w-40 md:w-96 rounded-lg border-2 border-blue-500" placeholder="Search User"/>
