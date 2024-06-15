@@ -11,7 +11,7 @@ export const Conversations = () => {
     }, [id])
 
   return (
-    <div className="flex gap-2 md:gap-4 mb-10 h-screen">
+    <div className="flex gap-2 md:gap-4 mb-10 h-screen-minus-header">
 
         <ConversationList conversationId={id}/>
         

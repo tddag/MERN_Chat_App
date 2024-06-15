@@ -11,7 +11,7 @@ import { Users } from './pages/Users'
 function App() {
 
   return (
-    <>
+    <div className="h-full">
       <Header/>
 
       <Routes>
@@ -25,7 +25,7 @@ function App() {
         <Route path="/signup" element={<SignUp/>} />
       </Routes>
 
-    </>
+    </div>
   )
 }
 

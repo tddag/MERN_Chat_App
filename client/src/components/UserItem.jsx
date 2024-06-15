@@ -42,6 +42,6 @@ export const UserItem = (props) => {
     }
 
     return (
-        <div onClick={handleClick} className="w-20 rounded-full h-20 bg-purple-300 p-4 flex items-center  justify-center uppercase">{props.user.name}</div>
+        <div onClick={handleClick} className="rounded-lg h-15 bg-indigo-200 p-4 flex items-center  justify-center uppercase">{props.user.name}</div>
     )
 }

@@ -13,10 +13,10 @@ export const Users = () => {
 
 
   return (
-    <div className="flex flex-col mx-auto w-full">
-      <div className="bg-orange-200 flex justify-center h-20 items-center gap-4">
+    <div className="flex flex-col mx-auto w-full h-screen-minus-header">
+      <div className="flex justify-center h-20 items-center gap-4 mt-10">
           <div>
-            <input className="p-4 w-40 md:w-96 rounded-lg" placeholder="Search User"/>
+            <input className="p-4 w-40 md:w-96 rounded-lg border-2 border-blue-500" placeholder="Search User"/>
           </div>
           <button onClick={() => setIsGroupChatModalOpen(true)} className="bg-blue-400 p-4 rounded-lg">Create Group Chat</button>
       </div>

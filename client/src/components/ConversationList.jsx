@@ -36,14 +36,14 @@ export const ConversationList = (props) => {
 
 
     return (
-        <div className="bg-purple-300 w-3/12 md:w-2/6 h-95% pb-20 flex flex-col p-2 md:p-4 gap-4 overflow-auto">
+        <div className="w-3/12 md:w-1/6 h-full flex flex-col p-2 md:p-4 gap-4 overflow-auto">
             { conversationList.length == 0 ? (
                     <div>
                         No conversation.
                     </div>
                 ): 
                 conversationList.map((conversation, index) => (
-                    <Link to={`/conversations/${conversation._id}`} key={index} className={(props.conversationId && props.conversationId == conversation._id) ? "bg-yellow-400" : "bg-yellow-200"}>
+                    <Link to={`/conversations/${conversation._id}`} key={index} className={"rounded-lg " + (props.conversationId && props.conversationId == conversation._id ? "bg-yellow-300" : "bg-yellow-100")}>
                         <ConversationListItem  conversation={conversation}/>
                     </Link>
                     

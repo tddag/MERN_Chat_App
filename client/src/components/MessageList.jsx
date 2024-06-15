@@ -98,19 +98,21 @@ export const MessageList = (props) => {
     }
 
     return (
-        <div className="relative bg-green-300 w-5/6 h-95%" >
-            <div className="flex flex-col p-2 md:p-4 overflow-auto h-3/4 md:mr-20 gap-3">
+        <div className="relative  w-5/6 h-full" >
+            <div className="relative  flex flex-col p-2 md:p-4 overflow-auto h-85% md:mr-10 gap-3">
                 {messageList.length > 0 ? messageList.map((message,index) => (
-                        <MessageItem message={message} key={index} isLast={messageList.length == index + 1}/>
+                        <div>
+                            <MessageItem message={message} key={index} isLast={messageList.length == index + 1}/>
+
+                        </div>
                     )) : (
                         <div>
-                            Please select or start a conversation
+                            Select an existing conversation or start a new conversation
                         </div>
                     )
-                }                               
+                }    
                 <div ref={bottomListRef}></div>
             </div>
-           
 
             <MessageInput conversationId={props.conversationId}/>
 
