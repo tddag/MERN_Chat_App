@@ -2,6 +2,7 @@ const User = require("../models/User")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken");
 const Conversation = require("../models/Conversation");
+const { pusherServer } = require("../libs/pusher");
 
 // @desc Register User
 // @route POST /api/users
@@ -109,6 +110,63 @@ const getUserConversations = async (req, res, next) => {
     }
 }
 
+// @desc broadcastActiveUser
+// @route POST /api/users/activeUsers
+const broadcastActiveUsers = async (req, res, next) => {
+    const { activeUsers } = req.body;
+    console.log("TD Request")
+    console.log(req.originalUrl)
+    console.log(activeUsers)
+    if (!activeUsers) {
+        res.status(400).json({ message: "Invalid Request"})
+        return
+    }
+
+    await pusherServer.trigger("activeUsers", "allUsers:active", activeUsers)
+
+    res.status(200).json({ activeUsers });
+}
+
+// @desc user active
+// @route POST /api/users/:id/active
+const userActive = async (req, res, next) => {
+    const { id } = req.params;
+
+    console.log("TD Request")
+    console.log(req.originalUrl)    
+    console.log(id)
+
+    if (!id) {
+        res.status(400).json({ message: "Invalid Request"})
+        return
+    }
+
+    await pusherServer.trigger("activeUsers", "user:active", id)
+
+    res.status(200).json({ id });
+}
+
+// @desc user inactive
+// @route POST /api/users/:id/inactive
+const userInactive = async (req, res, next) => {
+    const { id } = req.params;
+
+    console.log("TD Request")
+    console.log(req.originalUrl)  
+    console.log(id)
+
+
+    if (!id) {
+        res.status(400).json({ message: "Invalid Request"})
+        return
+    }
+
+    await pusherServer.trigger("activeUsers", "user:inactive", id)
+
+    res.status(200).json({ id });
+}
+
+
 // Generate JWT Token
 const generateJwtToken = (id) => {
 
@@ -121,4 +179,12 @@ const generateJwtToken = (id) => {
     )
 }
 
-module.exports = { registerUser, loginUser, getUserDetails, getUserConversations, getAllUsers}
+module.exports = { registerUser, 
+    loginUser, 
+    getUserDetails, 
+    getUserConversations, 
+    getAllUsers,
+    broadcastActiveUsers,
+    userActive,
+    userInactive
+}

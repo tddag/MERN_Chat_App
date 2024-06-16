@@ -9,7 +9,6 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { persistStore } from 'redux-persist'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistStore(store)}>
         <BrowserRouter>
@@ -19,5 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       
     </Provider>
     
-  </React.StrictMode>,
 )
+
+{/* <React.StrictMode>
+</React.StrictMode>, */}

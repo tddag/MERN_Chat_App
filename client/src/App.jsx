@@ -7,6 +7,7 @@ import { SignUp } from './pages/SignUp'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { Conversations } from './pages/Conversations'
 import { Users } from './pages/Users'
+import { ActiveStatus } from './components/ActiveStatus'
 
 function App() {
 
@@ -16,10 +17,12 @@ function App() {
 
       <Routes>
         <Route element={<ProtectedRoute/>}>
-          <Route path="/" element={<Conversations/>} />
-          <Route path="/conversations/" element={<Conversations/>} /> 
-          <Route path="/conversations/:id" element={<Conversations/>} /> 
-          <Route path="/users" element={<Users/>} />        
+          <Route element={<ActiveStatus/>}>
+            <Route path="/" element={<Conversations/>} />
+            <Route path="/conversations/" element={<Conversations/>} /> 
+            <Route path="/conversations/:id" element={<Conversations/>} /> 
+            <Route path="/users" element={<Users/>} />   
+          </Route>
         </Route>
         <Route path="/signin" element={<SignIn/>} />
         <Route path="/signup" element={<SignUp/>} />
