@@ -3,6 +3,7 @@ import { Modal, Checkbox } from 'antd';
 import { useUsers } from '../hooks/useUsers';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { GroupChatUserItem } from './GroupChatUserItem';
 
 export const CreateGroupChatModal = (props) => {
     
@@ -62,7 +63,9 @@ export const CreateGroupChatModal = (props) => {
             <Modal title="Create Group Chat" open={props.isOpen} onCancel={props.cancelModal} onOk={handleModalSubmit} okText="Create" centered="true">
                 <Checkbox.Group value={checkedUsers} className="flex flex-col gap-3 mt-5" onChange={onCheckboxChange}>
                     {userList.map((user, index) => (
-                            <Checkbox className="uppercase" value={user._id} key={index}>{user.name}</Checkbox>
+                            <Checkbox className="uppercase" value={user._id} key={index}>
+                                <GroupChatUserItem user={user}/>
+                            </Checkbox>
                         )
                     )}
                 </Checkbox.Group>

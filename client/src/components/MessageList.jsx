@@ -4,11 +4,13 @@ import { MessageInput } from './MessageInput';
 import { MessageItem } from './MessageItem';
 import { pusherClient } from '../libs/pusher';
 import { useNavigate } from 'react-router-dom';
+import { MessageHeader } from './MessageHeader';
 
 export const MessageList = (props) => {
 
     const { currentUser } = useSelector(state => state.user);
     const [messageList, setMessageList] = useState([])
+    const [userList, setUserList] = useState([])
     let bottomListRef = useRef(null);
     const navigate = useNavigate()
 
@@ -90,6 +92,7 @@ export const MessageList = (props) => {
                 if (res.ok) {
                     res = await res.json();
                     setMessageList(res.messages);
+                    setUserList(res.users)
                     if (res.messages.length > 0 && !res.messages[res.messages.length - 1].seenUsers.map(user => user._id).includes(currentUser._id)) {
                         await callSeenMessageApi(res.messages[res.messages.length - 1]._id);
                     }                    
@@ -110,6 +113,11 @@ export const MessageList = (props) => {
 
     return (
         <div className="relative  w-5/6 h-full" >
+            {props.conversationId && (
+                <div className="md:mr-10">
+                    <MessageHeader userList={userList}/>
+                </div>
+            )}
             <div className="relative  flex flex-col p-2 md:p-4 overflow-auto h-85% md:mr-10 gap-3">
                 {messageList.length > 0 ? messageList.map((message,index) => (
                         <MessageItem message={message} key={index} isLast={messageList.length == index + 1}/>

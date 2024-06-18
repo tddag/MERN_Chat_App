@@ -1,14 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from "react-router-dom";
 
 export const UserItem = (props) => {
 
     const navigate = useNavigate();
-    const { currentUser } = useSelector(state => state.user);
+    const { currentUser, activeUsers } = useSelector(state => state.user);
+    const [isActive, setIsActive] = useState(false)
+
+    useEffect(() => {
+        setIsActive(checkUserActive())
+    }, [activeUsers])
+    
+    const checkUserActive = () => {
+            
+        if (activeUsers.includes(props.user.email)) return true
+        return false
+    }    
 
     const handleClick = async () => {
-         
+
+
 
         try {
             let url = `${import.meta.env.VITE_SERVER_URL}/api/conversation`
@@ -44,6 +56,9 @@ export const UserItem = (props) => {
     }
 
     return (
-        <div onClick={handleClick} className="rounded-lg h-15 bg-indigo-200 p-4 flex items-center  justify-center uppercase">{props.user.name}</div>
+        <div onClick={handleClick} className="relative rounded-lg h-15 bg-indigo-200 p-4 flex items-center  justify-center uppercase">
+            {props.user.name}
+            {isActive && (<span className="bg-green-500 w-2 h-2 absolute top-2 right-2 rounded-full ring-2 ring-white"/>)}
+        </div>
     )
 }

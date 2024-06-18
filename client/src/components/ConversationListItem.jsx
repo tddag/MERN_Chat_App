@@ -10,7 +10,7 @@ export const ConversationListItem = (props) => {
 
     useEffect(() => {
         setIsActive(checkUserActive());
-    }), [activeUsers]
+    }, [activeUsers]) 
 
     const checkUserActive = () => {
         for (let user of props.conversation.users) {
