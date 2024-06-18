@@ -1,16 +1,21 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Outlet } from 'react-router-dom'
 import { pusherClient } from '../libs/pusher'
+import { setActiveUsers } from '../state/user/userSlice'
 
 export const ActiveStatus = () => {
 
-    const { currentUser } = useSelector(state => state.user)
-    let activeUsers = [];
+    const { currentUser, activeUsers } = useSelector(state => state.user)
+    const dispatch = useDispatch();
+    const currentActiveUsers = useRef(activeUsers); // useRef will not cause value reset on rerender
 
     useEffect(() => {
-        console.log("Active Status mounted")
+        currentActiveUsers.current = activeUsers ? [...activeUsers] : [];
+    }, [activeUsers])
 
+
+    useEffect(() => {
         const callActiveUserApi = async () => {
             await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users/${currentUser.email}/activeUser`, {
                 method: "POST",
@@ -21,7 +26,6 @@ export const ActiveStatus = () => {
         }
 
         const callInactiveUserApi = async () => {
-            console.log("TD - call INACTIVE API")
             await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users/${currentUser.email}/inactiveUser`, {
                 method: "POST",
                 headers: {
@@ -30,14 +34,14 @@ export const ActiveStatus = () => {
             })            
         }   
         
-        const callBroadcastActiveUsersApi = async () => {
+        const callBroadcastActiveUsersApi = async (users) => {
             await fetch(`${import.meta.env.VITE_SERVER_URL}/api/users/activeUsers`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${currentUser.token}`,
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({"activeUsers": activeUsers})
+                body: JSON.stringify({"activeUsers": users})
             })            
         }            
 
@@ -45,34 +49,25 @@ export const ActiveStatus = () => {
 
 
         const activeUserHandler = async (user) => {
-            console.log("Active User event")
-            console.log(user)
-            activeUsers.push(user)
-            let set = new Set(activeUsers);
-            activeUsers = Array.from(set)              
-            console.log("TD-activeUsers 1")
-            console.log(activeUsers)         
-            await callBroadcastActiveUsersApi();     
+            let newActiveUsers = currentActiveUsers.current ? [...currentActiveUsers.current] : [];
+            newActiveUsers.push(user)
+            let set = new Set(newActiveUsers);
+            newActiveUsers = Array.from(set)  
+            dispatch(setActiveUsers(newActiveUsers))            
+            await callBroadcastActiveUsersApi(newActiveUsers);     
         }
 
-        const inactiveUserHandler = async (inactiveEmail) => {
-            activeUsers = activeUsers.filter(email => email !== inactiveEmail)
-
-            console.log("Inactive User event")
-            console.log(inactiveEmail)
-            console.log("TD-activeUsers 2")
-            console.log(activeUsers)   
+        const inactiveUserHandler = async (inactiveEmail) => {          
+            let newActiveUsers = currentActiveUsers.current.filter(email => email !== inactiveEmail)
+            dispatch(setActiveUsers(newActiveUsers))
         }
 
-        const broadcastActiveUsersHandler = async (users) => {
-            if (activeUsers.length == 1) {
-                activeUsers = activeUsers.concat(users)
-                let set = new Set(activeUsers);
-                activeUsers = Array.from(set)  
-                console.log("Broadcast Active Users event")
-                console.log(users)
-                console.log("TD-activeUsers 3")
-                console.log(activeUsers)                                 
+        const broadcastActiveUsersHandler = async (users) => {     
+            if (currentActiveUsers.current.length == 1) { // check if users login late, ex: user1 and user2 already logged in, this is to ensure user1 and user2 also be in the activeUsers list of user3
+                let newActiveUsers = currentActiveUsers.current.concat(users)
+                let set = new Set(newActiveUsers);
+                newActiveUsers = Array.from(set)  
+                dispatch(setActiveUsers(newActiveUsers))                             
             }
 
         }        
