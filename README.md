@@ -1,3 +1,4 @@
+[Live](https://mern-chat-app-client-ten.vercel.app)
 
 # Set up
 - Install [Node](https://nodejs.org/en/download/)
